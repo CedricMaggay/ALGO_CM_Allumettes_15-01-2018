@@ -135,11 +135,7 @@ BEGIN
 
 		place:=(place + somme);
 
-		IF (place=58) THEN //Case tete de mort
-			begin
-			place:=1;
-			writeln('Vous avez touche la case tete de mort, retour a la base depart !');
-			end;
+
 			
 		IF (place=9) THEN
 			place:=(place+somme);
@@ -165,6 +161,14 @@ BEGIN
 				diff:=(place-66);
 				place:=(66-diff);
 			end;
+
+		IF (place=58) THEN //Case tete de mort
+			begin
+				place:=1;
+				writeln('Vous avez touche la case tete de mort, retour a la base depart !');
+			end;
+
+
 
 		writeln('Place actuelle : ', place);
 		
