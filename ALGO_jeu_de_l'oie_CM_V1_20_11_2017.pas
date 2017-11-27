@@ -10,7 +10,12 @@ ALGORITHME Jeu_De_Loie
 			- Les cases vont de 1 à 66.
 			- On avance de la somme du jet des deux dés.
 			- Si on arrive sur la case 66, on gagne.
-			- On recule du nombre de case en trop, si on arrive a plus de 66.
+			- On
+
+
+
+
+                        recule du nombre de case en trop, si on arrive a plus de 66.
 			- Il y a une oie toutes les 9 cases, qui double la somme des dés ( 9, 18, 27, 36, 45, 54) Sauf en 63.
 			- Tête de mort en case 58 qui te fait retourner a la case 1.
 
@@ -30,7 +35,7 @@ CONST
 
 VAR
 	
-	place : ENTIER 
+	place : ENTIER
 	somme, diff : ENTIER
 	
 	
@@ -49,11 +54,6 @@ DEBUT
 
 
 		place<-(place + somme)
-
-		SI (place=58) alors //Case tete de mort
-			place<-1
-			ECRIRE("Vous avez touche la case tete de mort, retour a la base depart !")
-		FINSI
 			
 		SI (place=9) ALORS
 			place<-(place+somme)
@@ -84,7 +84,18 @@ DEBUT
 				place<-(66-diff)
 		FINSI
 
+		SI (place=58) alors //Case tete de mort
+			place<-1
+			ECRIRE("Vous avez touche la case tete de mort, retour a la base depart !")
+		FINSI
+
 		ECRIRE ("Place actuelle : ", place)
+
+		ECRIRE ("Avancement actuel : ")
+
+			POUR i DE 1 A place FAIRE
+				ECRIRE '_'
+			FINPOUR
 		
 
 	JUSQU'A (place=maxPlateau)  //Sortie de la boucle, donc le joueur est arrive place 66.
@@ -114,8 +125,7 @@ CONST
 
 VAR
 
-	place : INTEGER; 			
-	somme, diff : INTEGER;
+	place, somme, diff, tour, i : INTEGER; 			
 
 //-----------------  Corps du programme  ---------------------------
 
@@ -124,58 +134,83 @@ BEGIN
 	clrscr;
 
 	place:= 1; //Début a la case 1.
+	tour:= 0; //Numero du tour
 
 	REPEAT
 
-		Randomize;
-		somme:=Random(desMax);
-		somme:=(somme+2);
-		writeln('Somme des des: ', somme); //Obtention de la somme des dés.
+		begin
+
+			tour:=(tour+1); //Re affectation du nombre de tours
+			writeln('Numero du tour : \\ ', tour, ' //');
+			writeln;
+
+			Randomize;
+			somme:=Random(desMax);
+			somme:=(somme+2);
+			writeln('Somme des des: ', somme); //Obtention de la somme des dés.
+			writeln;
+
+			place:=(place + somme);
+
+			IF (place=9) THEN
+				place:=(place+somme);
+
+			IF (place=18) THEN
+				place:=(place+somme);
+
+			IF (place=27) THEN
+				place:=(place+somme);
+
+			IF (place=36) THEN
+				place:=(place+somme);
+
+			IF (place=45) THEN
+				place:=(place+somme);
+
+			IF (place=54) THEN
+				place:=(place+somme);
 
 
-		place:=(place + somme);
+			IF (place>66) THEN
+				begin
+					diff:=(place-66);
+					place:=(66-diff);
+				end;
 
+			IF (place=58) THEN //Case tete de mort
+				begin
+					place:=1;
+					writeln('Vous avez touche la case tete de mort, retour a la base depart !');
+					writeln;
+				end;
 
+			writeln('Place actuelle : ', place);
+			writeln;
 			
-		IF (place=9) THEN
-			place:=(place+somme);
 
-		IF (place=18) THEN
-			place:=(place+somme);
+			writeln('Avancement actuel : ');
+			writeln;
 
-		IF (place=27) THEN
-			place:=(place+somme);
+				writeln;
+				writeln('|                                                                 |');
 
-		IF (place=36) THEN
-			place:=(place+somme);
-
-		IF (place=45) THEN
-			place:=(place+somme);
-
-		IF (place=54) THEN
-			place:=(place+somme);
-
-
-		IF (place>66) THEN
-			begin
-				diff:=(place-66);
-				place:=(66-diff);
-			end;
-
-		IF (place=58) THEN //Case tete de mort
-			begin
-				place:=1;
-				writeln('Vous avez touche la case tete de mort, retour a la base depart !');
-			end;
-
-
-
-		writeln('Place actuelle : ', place);
-		
-		readln;
+			FOR i:=1 TO place DO    //Barre de progression
+				begin
+					write('=');
+					
+				end;
+				writeln;
+				writeln('|                                                                 |'); //Barre de progression
+			readln;
+	
+			clrscr;
+		end;
 
 	UNTIL (place=maxPlateau);  //Sortie de la boucle, donc le joueur est arrive place 66.
 	
+	writeln('Vous avez termine avec ', tour, ' tours !');
+	writeln;
+
 	IF (place=66) THEN
 		writeln('Vous avez gagne !');
 
